@@ -16,14 +16,14 @@ clean:
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o gofish $(LIBS)
 
-card.o: Card.cpp
-	$(CPP) -c Card.cpp -o Card.o $(CXXFLAGS)
+card.o: card.cpp
+	$(CPP) -c card.cpp -o card.o $(CXXFLAGS)
 
-deck.o: Deck.cpp
-	$(CPP) -c Deck.cpp -o Deck.o $(CXXFLAGS)
+deck.o: deck.cpp
+	$(CPP) -c deck.cpp -o deck.o $(CXXFLAGS)
 
-go_fish.o: GoFish.cpp
-	$(CPP) -c GoFish.cpp -o GoFish.o $(CXXFLAGS)
+go_fish.o: go_fish.cpp
+	$(CPP) -c go_fish.cpp -o go_fish.o $(CXXFLAGS)
 
-player.o: Player.cpp
-	$(CPP) -c Player.cpp -o Player.o $(CXXFLAGS)
+player.o: player.cpp
+	$(CPP) -c player.cpp -o player.o $(CXXFLAGS)

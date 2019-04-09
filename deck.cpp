@@ -2,7 +2,7 @@
 // Created by peter on 4/4/2019.
 //
 
-#include "Deck.h"
+#include "deck.h"
 #include <chrono>
 
 Deck::Deck(){

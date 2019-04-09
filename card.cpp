@@ -2,7 +2,7 @@
 // Created by peter on 4/4/2019.
 //
 
-#include "Card.h"
+#include "card.h"
 #include <string>
 
 Card::Card(){

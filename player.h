@@ -12,7 +12,7 @@
 #include <vector>
 
 
-#include "Card.h"
+#include "card.h"
 using namespace std;
 
 class Player

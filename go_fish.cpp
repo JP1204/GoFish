@@ -2,9 +2,9 @@
 // This is a small demonstration program showing how the Card and Deck classes are used.
 #include <iostream>    // Provides cout and cin
 #include <cstdlib>     // Provides EXIT_SUCCESS
-#include "Card.h"
-#include "Player.h"
-#include "Deck.h"
+#include "card.h"
+#include "player.h"
+#include "deck.h"
 
 using namespace std;
 

@@ -16,7 +16,7 @@
 #ifndef _DECK_H
 #define _DECK_H
 
-#include "Card.h"
+#include "card.h"
 
 
 class Deck

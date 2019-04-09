@@ -53,6 +53,6 @@ class Card
     Suit mySuit;
 };
 
-ostream& operator << (ostream& out, const Card& c);
+    ostream& operator << (ostream& out, const Card& c);
 
 #endif

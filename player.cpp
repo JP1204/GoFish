@@ -2,7 +2,7 @@
 // Created by peter on 4/4/2019.
 //
 
-#include "Player.h"
+#include "player.h"
 #include <chrono>
 
 Player::Player(){
