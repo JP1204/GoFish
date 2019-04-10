@@ -36,14 +36,10 @@ void Player::bookCards(Card const &c1, Card const &c2){
 
 
 bool Player::checkHandForBook(Card &c1, Card &c2){
-    for(Card i : myHand){
-        cout << i.toString() << endl;
-    }
 
     for(auto i = myHand.begin(); i!= myHand.end(); ++i){
-        if(++i!=myHand.end()){
-     cout << (*i).toString() << " hi there" << endl;
-            for(auto j = ++i; j!=myHand.end();++j){
+        if((i+1)!=myHand.end()){
+            for(auto j = i+1; j!=myHand.end();++j){
                 if((*i).getRank()==(*j).getRank()) {
                     c1=*i;
                     c2=*j;
@@ -59,6 +55,7 @@ bool Player::checkHandForBook(Card &c1, Card &c2){
 bool Player::sameRankInHand(Card c) const{
     for(const auto &i : myHand){
         if(c.getRank()==(i).getRank()){
+	 cout << "the matching card is " << i.toString() << endl;
             return true;
         }
     }
@@ -85,8 +82,8 @@ bool Player::cardInHand(Card c) const {
 Card Player::removeCardFromHand(Card c){
     int place = 0;
     for (auto &i : myHand) {
-        if(c.toString() == i.toString()) {
-            myHand.erase(myHand.begin()+place);
+        if(c.getRank() == i.getRank()) {
+            myHand.erase(myHand.begin() + place);
             return i;
         }
         place++;
@@ -97,6 +94,12 @@ Card Player::removeCardFromHand(Card c){
 
 string Player::showHand() const{
     string hand;
+
+    if(myHand.begin()==myHand.end()){
+        cout << "Empty Hand" << endl;
+	return hand;
+    }
+
     for(const auto &i : myHand) {
         hand += i.toString() + ", ";
     }
@@ -104,12 +107,18 @@ string Player::showHand() const{
     hand.pop_back();	// deletes last 2 char ", "
     hand.pop_back();
 
+
     return hand;
 }
 
 
 string Player::showBooks() const{
     string book;
+
+    if(myBook.begin()==myBook.end()){
+        cout << "Empty Book" << endl;
+	return book;
+    }
 
     for(const auto &i : myBook) {
         book += i.toString() + ", ";
@@ -127,7 +136,9 @@ int Player::getHandSize() const{
     for(const auto &i : myHand) {
         size++;
     }
+    
     return size;
+
 }
 
 
