@@ -31,7 +31,7 @@ class Card
 {
   public:
 
-    enum Suit {spades, hearts, diamonds, clubs};
+    enum Suit {spades, hearts, diamonds, clubs}; 
 
     Card();          // default, ace of spades
 
@@ -49,7 +49,9 @@ class Card
   private:
     static const int NUM_CARDS = 13;
     int myRank;
+
     string Rank[NUM_CARDS] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"};
+    
     Suit mySuit;
 };
 

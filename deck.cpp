@@ -5,13 +5,16 @@
 #include "deck.h"
 #include <chrono>
 
+
 Deck::Deck(){
     myIndex = 0;
 
-    for(int i = 0; i<4; i++){
-        auto suit = (Card::Suit) i;
+    // creates the sorted deck
+    for(int i = 0; i <= 3; i++){
+	auto suit = (Card::Suit) i;
+
         for(int j = 1; j<=13; j++){
-            Card c(j,suit);
+            Card c(j, suit);
             myCards[myIndex]=c;
             myIndex++;
         }
@@ -25,8 +28,8 @@ void Deck::shuffle(){
         Card temp;
         int r = rand()%SIZE;
         temp = myCards[r];
-        myCards[r]=myCards[i];
-        myCards[i]=temp;
+        myCards[r] = myCards[i];
+        myCards[i] = temp;
     }
 
 }
