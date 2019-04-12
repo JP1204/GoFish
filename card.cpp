@@ -5,14 +5,16 @@
 #include "card.h"
 #include <string>
 
-
-Card::Card(){
+Card::Card():Rank {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"}
+{
     this->myRank = 1;
     this->mySuit = spades;
+
 }
 
 
-Card::Card(int rank, Suit s){
+Card::Card(int rank, Suit s):Rank {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"}
+{
     this->myRank = rank;
     this->mySuit = s;
 }

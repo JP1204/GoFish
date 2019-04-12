@@ -43,7 +43,6 @@ Card Deck::dealCard(){
     }
     else{
         cout<< "The Deck is Empty." << endl;
-        exit(-1);
     }
     return c;
 }

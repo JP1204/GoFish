@@ -50,7 +50,7 @@ class Card
     static const int NUM_CARDS = 13;
     int myRank;
 
-    string Rank[NUM_CARDS] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"};
+    string Rank[NUM_CARDS];
     
     Suit mySuit;
 };

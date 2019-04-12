@@ -55,7 +55,6 @@ bool Player::checkHandForBook(Card &c1, Card &c2){
 bool Player::sameRankInHand(Card c) const{
     for(const auto &i : myHand){
         if(c.getRank()==(i).getRank()){
-	 cout << "the matching card is " << i.toString() << endl;
             return true;
         }
     }
@@ -81,10 +80,12 @@ bool Player::cardInHand(Card c) const {
 
 Card Player::removeCardFromHand(Card c){
     int place = 0;
+    Card rem;
     for (auto &i : myHand) {
         if(c.getRank() == i.getRank()) {
+            rem = i;
             myHand.erase(myHand.begin() + place);
-            return i;
+            return rem;
         }
         place++;
     }

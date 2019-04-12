@@ -1,6 +1,7 @@
 // FILE: card_demo.cpp
 // This is a small demonstration program showing how the Card and Deck classes are used.
 #include <iostream>    // Provides cout and cin
+#include <cstdio>
 #include <fstream>     // Allows to write into result file
 #include <cstdlib>     // Provides EXIT_SUCCESS
 #include "card.h"
@@ -12,17 +13,16 @@ using namespace std;
 // PROTOTYPES for functions used by this demonstration program:
 void dealHand(Deck &d, Player &p, int numCards);
 
-
 int main( )
 {
+    freopen("gofish_results.txt", "w", stdout);
+
     int numCards;	// number of cards to deal depending on amount of players
     int numPlayers = 0;
 
     Player p1("Joe");
     numPlayers++;
-    Player p2("Jane");
-    numPlayers++;
-    Player p3;
+    Player p2;
     numPlayers++;
 
     if(numPlayers>2){
@@ -37,111 +37,126 @@ int main( )
 
     dealHand(d, p1, numCards);
     dealHand(d, p2, numCards);
-    dealHand(d, p3, numCards);
-
-    cout << p1.getName() <<" has : " << p1.showHand() << endl;
-    cout << p2.getName() <<" has : " << p2.showHand() << endl;
-    cout << p3.getName() <<" has : " << p3.showHand() << endl;
-
-    
-    // create stream to write into result file
-    ofstream result_file;
-    result_file.open("gofish_results.txt");
-
-    result_file << "Players are " << p1.getName() << ", " << p2.getName() << ", " << p3.getName() << endl << endl;	// print players names in order
-    result_file << "Results of Go Fish Game:\n\n";
-
 
     // start of the game
     // loop through until there is a winner
     bool winner = false;
-    int round = 1;
+    bool foundPair;
 
     Card bookCard1;
     Card bookCard2;
-   
-    Player* p[3] = {&p1, &p2, &p3};
-    int playerIndex = 0;
-    Player currPlayer;	// initialize who goes first
-    Player nextPlayer;	// player that is being asked
+
+    Card chosenCard;
+    Card matchingCard;
 
     while(!winner){
-	currPlayer = *p[playerIndex];
-	nextPlayer = *p[playerIndex+1];
+        // current player chooses card
+        chosenCard = p1.chooseCardFromHand();
 
-        while(p1.checkHandForBook(bookCard1, bookCard2)){
-	    p1.bookCards(bookCard1, bookCard2);
-	}
-        while(p2.checkHandForBook(bookCard1, bookCard2)){
-	    p2.bookCards(bookCard1, bookCard2);
-	}
-	while(p3.checkHandForBook(bookCard1, bookCard2)){
-	    p3.bookCards(bookCard1, bookCard2);
-	}
+        cout << p1.getName() << " asks " << p2.getName() << " do you have any " << chosenCard.rankString(chosenCard.getRank()) << "'s?"<< endl;
 
-	cout << "Player 1 books\n";
-	cout << p1.showBooks() << endl;
+        // current player asks
+        foundPair = p2.sameRankInHand(chosenCard);
 
-	cout << "Player 2 books\n";
-	cout << p2.showBooks() << endl;
+        // asks until they get it wrong
+        while(foundPair){
+            cout << "Yes!" << endl;
 
-	cout << "Player 3 books\n";
-	cout << p3.showBooks() << endl;
+            matchingCard = p2.removeCardFromHand(chosenCard);
 
-	cout << "Player 1 hand\n";
-	cout << p1.showHand() << endl;
+            p1.addCard(matchingCard);
+            p1.bookCards(chosenCard, matchingCard);
 
-	cout << "Player 2 hand\n";
-	cout << p2.showHand() << endl;
+            // check if the current player's hand is empty
+            if(p1.getHandSize()){
+                // if found, take the card and book them
+                chosenCard = p1.chooseCardFromHand();
 
-	cout << "Player 3 hand\n";
-	cout << p3.showHand() << endl;
+                cout << p1.getName() << " asks " << p2.getName() << " do you have any " << chosenCard.rankString(chosenCard.getRank()) << "'s?"<< endl;
 
-	
-	// current player chooses card
-	Card chosenCard = currPlayer.chooseCardFromHand();
-cout << chosenCard << endl;
+                // current player asks
+                foundPair = p2.sameRankInHand(chosenCard);
+            }
+            else{
+                foundPair = false;
+            }
+        }
+        cout << "No, Go Fish!" << endl;
 
-        result_file << currPlayer.getName() << " asked " << nextPlayer.getName() << " for a " << chosenCard << endl;
-	// current player asks
-	bool foundPair = nextPlayer.sameRankInHand(chosenCard);
-        Card matchingCard;
-
-	// asks until they get it wrong
-	while(foundPair){	
-
-	    matchingCard = nextPlayer.removeCardFromHand(chosenCard);
-	    currPlayer.bookCards(chosenCard, matchingCard);
-	    
-	    result_file << nextPlayer.getName() << " gives " << currPlayer.getName() << " the " << matchingCard << endl;
-
-	    // check if the current player's hand is empty
-	    if(currPlayer.getHandSize()){
-	    	// if found, take the card and book them
-            	chosenCard = currPlayer.chooseCardFromHand();
-            
-                result_file << currPlayer.getName() << " asked " << nextPlayer.getName() << " for a " << chosenCard << endl;
-	    	// current player asks
-            	foundPair = nextPlayer.sameRankInHand(chosenCard);
-	    }
-	    else{
-	        foundPair = false;
-	    }
-	}
-
-	// once current player has to go fish	
-        result_file << nextPlayer.getName() << " says go fish" << endl;
-	    
         // current player draws a card
-        currPlayer.addCard(d.dealCard());
+        p1.addCard(d.dealCard());
+
+        if(p1.checkHandForBook(bookCard1, bookCard2)){
+            p1.bookCards(bookCard1, bookCard2);
+        }
+
+        if(d.size()==0){
+            winner = true;
+        }
+
+        //-----------------------------------------------------------------------------------
+
+        // current player chooses card
+        chosenCard = p2.chooseCardFromHand();
+
+        cout << p2.getName() << " asks " << p1.getName() << " do you have any " << chosenCard.rankString(chosenCard.getRank()) << "'s?"<< endl;
+
+        // current player asks
+        foundPair = p1.sameRankInHand(chosenCard);
 
 
+        // asks until they get it wrong
+        while(foundPair){
+            cout << "Yes!" << endl;
 
-	// Joe's Turn
-	
-        (playerIndex+1) % 3;
-	winner = true;
+            matchingCard = p1.removeCardFromHand(chosenCard);
+
+            p2.addCard(matchingCard);
+            p2.bookCards(chosenCard, matchingCard);
+
+            // check if the current player's hand is empty
+            if(p2.getHandSize()){
+                // if found, take the card and book them
+                chosenCard = p2.chooseCardFromHand();
+
+                cout << p1.getName() << " asks " << p2.getName() << " do you have any " << chosenCard.rankString(chosenCard.getRank()) << "'s?"<< endl;
+
+                // current player asks
+                foundPair = p1.sameRankInHand(chosenCard);
+            }
+            else{
+                foundPair = false;
+            }
+        }
+        cout << "No, Go Fish!" << endl;
+
+        // current player draws a card
+        p2.addCard(d.dealCard());
+
+        if(p2.checkHandForBook(bookCard1, bookCard2)){
+            p2.bookCards(bookCard1, bookCard2);
+        }
+
+        if(d.size()==0){
+            winner = true;
+        }
+
+        cout << endl;
+
     }
+    cout << p1.getName() << " : Book : " << p1.showBooks() << endl;
+    cout << p2.getName() << " : Book : " << p2.showBooks() << endl;
+
+    if(p1.getBookSize()>p2.getBookSize()){
+        cout << p1.getName() << " has won!" << endl;
+    }
+    else if(p1.getBookSize()>p2.getBookSize()){
+        cout << p2.getName() << " has won!" << endl;
+    }
+    else{
+        cout << p1.getName() << " and " << p2.getName() << " have tied!" << endl;
+    }
+
     return EXIT_SUCCESS;
 }
 

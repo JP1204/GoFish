@@ -3,4 +3,4 @@ project(GoFish)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(GoFish main.cpp Player.cpp Card.cpp Deck.cpp)
+add_executable(gofish go_fish.cpp player.cpp card.cpp deck.cpp)
