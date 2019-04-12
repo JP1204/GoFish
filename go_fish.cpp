@@ -60,14 +60,14 @@ int main( )
     Card bookCard1;
     Card bookCard2;
    
-    Player p[3] = {p1, p2, p3};
+    Player* p[3] = {&p1, &p2, &p3};
     int playerIndex = 0;
     Player currPlayer;	// initialize who goes first
     Player nextPlayer;	// player that is being asked
 
     while(!winner){
-	currPlayer = p[playerIndex];
-	nextPlayer = p[playerIndex+1];
+	currPlayer = *p[playerIndex];
+	nextPlayer = *p[playerIndex+1];
 
         while(p1.checkHandForBook(bookCard1, bookCard2)){
 	    p1.bookCards(bookCard1, bookCard2);
